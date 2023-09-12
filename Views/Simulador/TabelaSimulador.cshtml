@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SimuladorModels>
+
+@{
+    ViewData["Title"] = "Ambulatorio";
+}
+
+
+<table class="table table-striped">
+
+
+    <div class="  d-flex justify-content-between align-items-center ">
+        <h1>Cadastrar</h1>
+        <a class=" btn btn-success mx-2" asp-controller="Simulador" asp-action="ExportarParaExcel"> Importar Excel</a>
+        <a asp-controller="Simulador" asp-action="Excluir" class="btn btn-danger mx-2"> Limpar</a>
+
+    </div>
+
+    <thead>
+
+
+        <tr>
+            <th scope="col">Cargo/Função</th>
+            <th scope="col">Setor</th>
+            <th scope="col">Categoria de dimensionamento</th>
+            <th scope="col">N° de leitos/atendimentos</th>
+            <th scope="col">Nome do setor/ala</th>
+            <th scope="col">Número de salas</th>
+            <th scope="col">Quantidade de categoria de dimensionamento</th>
+            <th scope="col">Carga horária</th>
+            <th scope="col">Escala</th>
+            <th scope="col">RH minimo por tipo de escala</th>
+            <th scope="col">RH minimo por turno</th>
+            <th scope="col">Resultado equipe minima</th>
+            <th scope="col">valor</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @if (Model != null)
+        {
+           <h1>não tem nem um dado</h1>
+            @foreach (var simulador in Model)
+            {
+                <tr>
+
+                    <th scope="row">@simulador.cargo</th>
+                    <td>@simulador.setor</td>
+                    <td>@simulador.categoria </td>
+                    <td>@simulador.leitos</td>
+                    <td>@simulador.ala</td>
+                    <td>@simulador.salas</td>
+                    <td>@simulador.dimensionamento</td>
+                    <td>@simulador.carga</td>
+                    <td>@simulador.escala</td>
+                    <td>@simulador.equipemin</td>
+                    <td>@simulador.rhminimo</td>
+                    <td>@simulador.rhminimoturno</td>
+                    <td>@simulador.valor</td>
+
+                   
+                </tr>
+            }
+        }
+    </tbody>
+</table>

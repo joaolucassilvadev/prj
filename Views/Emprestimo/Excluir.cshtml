@@ -1,0 +1,52 @@
+﻿@model EmprestimoModel
+
+@{
+    ViewData["title"] = " Excluir pdt";
+}
+
+
+
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+            <form method="post" asp-controller="Emprestimo" asp-action="Excluir">
+                <input type="hidden" asp-for="Id" />
+                <h2 class="alert-primary"> Deseja realmente excluir a linha?</h2>
+
+
+
+                <label for="setor" class="form-label">Setor</label>
+                <input type="text" class="form-control" asp-for="setor" id="setor" placeholder="Qual o nome do setor?" disabled>
+
+
+
+
+
+                <label for="CH" class="form-label">CH</label>
+                <input type="text" class="form-control" asp-for="ch" id="CH" placeholdere="Qual a carga horaria?" disabled>
+
+
+
+                <label for="real" class="form-label">RH Real</label>
+                <input type="text" class="form-control" asp-for="rhreal" id="real" placeholder="Qual o RH real?" disabled>
+
+
+                <label for="ideal" class="form-label">RH Ideal</label>
+                <input type="text" class="form-control" asp-for="rhreal" id="ideal" placeholder="Qual é o RH ideal?" disabled>
+
+
+                <label for="comporativo" class="form-label">Comparativo</label>
+                <input type="text" class="form-control" asp-for="comporativo" id="comporativo" placeholder="comparativo:" disabled>
+
+
+                <div class="navbar-text mb-3">
+                    <button type="submit" class="btn btn-primary">Excluir</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>

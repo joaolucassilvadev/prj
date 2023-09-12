@@ -1,0 +1,351 @@
+﻿@model SimuladorModels
+
+@{
+    ViewData["Title"] = "simulador";
+
+    //o codigo original e normal tá no meu docx, esse eu ajeite com o gptzão nome do docx "codigo completo mais pra mais do que mais pra menos"
+}
+
+
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" asp-controller="Simulador" asp-action="TabelaSimulador">
+
+                <label for="funcao" class="form-label">Cargo/Função</label>
+                <select class="form-select" asp-for="cargo" id="funcao">
+                    <option selected>Escolha uma opção abaixo</option>
+                    <option value="1">Assistente Social</option>
+                    <option value="2">Nutricionista</option>
+                    <option value="3">Técnico de Enfermagem</option>
+                    <option value="4">FISIOTERAPEUTAS</option>
+                    <option value="5">Fonoaudiologo</option>
+                    <option value="6">Enfermeiros capital</option>
+                    <option value="7">Enfermeiros interior</option>
+                    <option value="8">Terapeutas ocupacionais</option>
+                </select>
+
+                <label for="setor" class="form-label">CATEGORIA</label>
+                <select class="form-select" asp-for="setor" id="setor">
+                    <option selected>Escolha uma opção abaixo</option>
+                    <option value="1">UTI</option>
+                    <option value="2">ENFERMARIAS/AMBULATÓRIOS</option>
+                    <option value="3">HOSPITAIS E CLINICAS EM GERAL</option>
+                    <option value="4">UPAS</option>
+                    <option value="5">POLICLINICAS</option>
+                    <option value="6">AMBULATORIO</option>
+                    <option value="7">Hospitais/Adulto</option>
+                </select>
+
+                <label for="categoria" class="form-label">DIMENSIONAMENTO</label>
+                <select class="form-select" asp-for="categoria" id="categoria">
+                    <option selected>Escolha uma opção abaixo</option>
+                    <option value="1">LEITOS</option>
+                    <option value="2">ATENDIMENTO</option>
+                    <option value="3">ALTA COMPLEXIDADE/LEITOS</option>
+                    <option value="4">MEDIA COMPLEXIDADE/LEITOS</option>
+                </select>
+
+                <label for="leitos" class="form-label">Nº DE LEITOS/ATENDIMENTOS</label>
+                <input type="text" class="form-control" asp-for="leitos" id="leitos" placeholder="Qual numero de leitos/atendimentos?">
+
+                <label for="ala" class="form-label">Nome do Setor</label>
+                <input type="text" class="form-control" asp-for="ala" id="ala" placeholder="Qual a carga horaria?">
+
+                <label for="salas" class="form-label">Número de Salas</label>
+                <input type="text" class="form-control" asp-for="salas" id="salas" placeholder="Qual o RH real?">
+
+                <label for="quantidade" class="form-label">Quantidade de Categoria de Dimensionamento</label>
+                <input type="text" class="form-control" asp-for="dimensionamento" id="quantidade" placeholder="Qual é o RH ideal?">
+
+                <label for="carga" class="form-label">Carga Horária</label>
+                <input type="text" class="form-control" asp-for="carga" id="carga" placeholder="Comparativo:">
+
+                <label for="escala" class="form-label">ESCALA</label>
+                <select class="form-select" asp-for="escala" id="escala">
+                    <option selected>Escolha uma opção abaixo</option>
+                    <option value="1">SN F F SN</option>
+                    <option value="2">SD F F SD</option>
+                    <option value="3">M ou T</option>
+                    <option value="4">SD SN F F F</option>
+                    <option value="5">SD F F SN</option>
+                    <option value="6">M ou T + Sabado</option>
+                </select>
+
+                <div class="navbar-text mb-3">
+                    <a id="simular" class="btn btn-primary" href="#">Simular</a>
+                </div>
+
+                <div class="mb-3">
+                    <label for="resultadoescala" class="form-label">Rh mínimo por tipo de escala:</label>
+                    <input type="text" class="form-control" id="resultadoescala" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="rhMinimoTurno" class="form-label">Rh mínimo por turno:</label>
+                    <input type="text" class="form-control" id="rhMinimoTurno" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="resultado" class="form-label">Resultado Equipe mínima:</label>
+                    <input type="text" class="form-control" id="resultado" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label for="valor" class="form-label">Valor total Rh:</label>
+                    <input type="text" class="form-control" id="valor" readonly>
+                </div>
+
+                <div class="navbar-text mb-3">
+                    <button type="submit" class="btn btn-danger">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Inclua aqui os scripts para a biblioteca Bootstrap -->
+<script src="link_para_o_bootstrap.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var quantidadeInput = document.getElementById("quantidade");
+        var resultadoescalaInput = document.getElementById("resultadoescala");
+
+        document.getElementById("funcao").addEventListener("change", function () {
+            var funcao = parseInt(this.value);
+
+            if (funcao === 2) {
+                document.getElementById("setor").addEventListener("change", function () {
+                    var setor = parseInt(this.value);
+
+                    if (setor === 4) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+
+                            if (categoria === 1) {
+                                quantidadeInput.value = 60;
+                            }
+                        });
+                    }
+
+                    if (setor === 5) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+
+                            if (categoria === 2) {
+                                quantidadeInput.value = 12;
+                            }
+                        });
+                    }
+
+                    if (setor === 3) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+
+                            if (categoria === 4) {
+                                quantidadeInput.value = 30;
+                            }
+                            if (categoria === 3) {
+                                quantidadeInput.value = 15;
+                            }
+                        });
+                    }
+                });
+            } else {
+                quantidadeInput.value = "";
+            }
+
+            if (funcao === 3) {
+                document.getElementById("setor").addEventListener("change", function () {
+                    var setor = parseInt(this.value);
+
+                    if (setor === 1) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 1) {
+                                quantidadeInput.value = 2;
+                            }
+                        });
+                    }
+
+                    if (setor === 1) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 2) {
+                                quantidadeInput.value = 5;
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (funcao === 4) {
+                document.getElementById("setor").addEventListener("change", function () {
+                    var setor = parseInt(this.value);
+
+                    if (setor === 2) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 2) {
+                                quantidadeInput.value = 12;
+                            }
+                        });
+                    }
+
+                    if (setor === 1) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 1) {
+                                quantidadeInput.value = 10;
+                            }
+                        });
+                    }
+                });
+            } else {
+                quantidadeInput.value = "";
+            }
+
+            if (funcao === 5) {
+                document.getElementById("setor").addEventListener("change", function () {
+                    var setor = parseInt(this.value);
+
+                    if (setor === 7) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 2) {
+                                quantidadeInput.value = 8;
+                            }
+                        });
+                    }
+
+                    if (setor === 6) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 2) {
+                                quantidadeInput.value = 12;
+                            }
+                        });
+                    }
+                });
+            } else {
+                quantidadeInput.value = "";
+            }
+
+            if (funcao === 6 || funcao === 7) {
+                document.getElementById("setor").addEventListener("change", function () {
+                    var setor = parseInt(this.value);
+
+                    if (setor === 1) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 1) {
+                                quantidadeInput.value = 8;
+                            }
+                        });
+                    }
+                });
+            } else {
+                quantidadeInput.value = "";
+            }
+
+            if (funcao === 8) {
+                document.getElementById("setor").addEventListener("change", function () {
+                    var setor = parseInt(this.value);
+
+                    if (setor === 2) {
+                        document.getElementById("categoria").addEventListener("change", function () {
+                            var categoria = parseInt(this.value);
+                            if (categoria === 2) {
+                                quantidadeInput.value = 12;
+                            }
+                        });
+                    }
+                });
+            } else {
+                quantidadeInput.value = "";
+            }
+
+            // Defina as cargas horárias e resultados de escala para cada função
+            var cargaInput = document.getElementById("carga");
+            if (funcao === 2) {
+                cargaInput.value = 36;
+                resultadoescalaInput.value = 2;
+            } else if (funcao === 3) {
+                cargaInput.value = 30;
+                resultadoescalaInput.value = 6;
+            } else if (funcao === 4) {
+                cargaInput.value = 30;
+            } else if (funcao === 5) {
+                cargaInput.value = 30;
+                resultadoescalaInput.value = 2;
+            } else if (funcao === 6 || funcao === 7) {
+                cargaInput.value = 36;
+                resultadoescalaInput.value = 2;
+                quantidadeInput.value = 8;
+            } else if (funcao === 1) {
+                cargaInput.value = 30;
+                resultadoescalaInput.value = 2;
+            } else if (funcao === 9) {
+                cargaInput.value = 36;
+            } else if (funcao === 8) {
+                cargaInput.value = 30;
+                resultadoescalaInput.value = 2;
+            }
+
+        });
+
+        var leitosInput = document.getElementById("leitos");
+        var quantidadeDimInput = document.getElementById("quantidade");
+        var valorInput = document.getElementById("valor");
+        var escalaInput = document.getElementById("escala");
+        var resultadoInput = document.getElementById("resultado");
+        var rhMinimoTurnoInput = document.getElementById("rhMinimoTurno");
+        var resultadoescalaInput = document.getElementById("resultadoescala");
+
+        document.getElementById("simular").addEventListener("click", function () {
+            var leitos = parseFloat(leitosInput.value);
+            var quantidade = parseFloat(quantidadeDimInput.value);
+            var escala = parseInt(escalaInput.value);
+
+            var rhMinimoTurno;
+
+            if (escala === 1 || escala === 2) {
+                rhMinimoTurno = leitos / quantidade;
+                rhMinimoTurno = Math.round(rhMinimoTurno);
+                resultadoescalaInput.value = 2;
+            } else if (escala === 3) {
+                rhMinimoTurno = leitos / quantidade;
+                rhMinimoTurno = Math.round(rhMinimoTurno);
+                resultadoescalaInput.value = 2;
+            } else if (escala === 4) {
+                rhMinimoTurno = leitos / quantidade;
+                rhMinimoTurno = Math.round(rhMinimoTurno);
+                resultadoescalaInput.value = 5;
+            } else if (escala === 5) {
+                rhMinimoTurno = leitos / quantidade;
+                rhMinimoTurno = Math.round(rhMinimoTurno);
+            } else if (escala === 6) {
+                rhMinimoTurno = leitos / quantidade;
+                rhMinimoTurno = Math.round(rhMinimoTurno);
+                resultadoescalaInput.value = 2;
+            }
+
+            rhMinimoTurnoInput.value = rhMinimoTurno;
+
+            var resultado = rhMinimoTurno * resultadoescalaInput.value;
+            resultado = Math.round(resultado);
+
+            resultadoInput.value = resultado;
+
+            var valor = resultado * 3000; // Você pode ajustar o multiplicador conforme necessário
+            valorInput.value = valor;
+        });
+    });
+</script>
+
+
+

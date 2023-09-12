@@ -1,0 +1,72 @@
+﻿@model IEnumerable<EmprestimoModel>
+
+@{
+    ViewData["Title"] = "Ambulatorio";
+    }
+
+<div class ="container">
+
+    <div class="  d-flex justify-content-between align-items-center mb-3">
+        <h1>Cadastrar</h1>
+        <a class=" btn btn-success mx-2" asp-controller="Emprestimo" asp-action="Cadastra"> Cadastrar modelo</a> 
+        <a class="btn btn-sucess mx-2" asp-controller="Emprestimo" asp-action="ExportarParaExcel">Exportar</a>
+    </div>
+
+<table class="table table-striped">
+    <thead>
+
+
+        <tr>
+            <th scope="col">setor</th>
+            <th scope="col">ch</th>
+            <th scope="col">rhreal</th>
+            <th scope="col">rhideal</th>
+            <th scope="col">comporativo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+
+
+
+            @if (Model != null)
+            {
+
+                @foreach (var emprestimo in Model)
+                {
+                    <tr>
+
+                        <th scope="row">@emprestimo.setor</th>
+                        <td>@emprestimo.ch</td>
+                        <td>@emprestimo.rhreal</td> 
+                        <td>@emprestimo.rhideal</td>
+                        <td>@emprestimo.comporativo</td>
+
+                        <td>
+                            <a asp-controller="Emprestimo" asp-action="Editar" asp-route-id="@emprestimo.Id" class="btn btn-warning mx-2">
+                                Editar
+                            </a>
+
+                            <a asp-controller="Emprestimo" asp-action="Excluir" asp-route-id="@emprestimo.Id" class="btn btn-danger mx-2"> Excluir</a>
+                        </td>
+                    </tr>
+                }
+            }
+          
+    </tbody>
+</table>
+
+
+
+
+
+    <div class="text-right mb-3">
+      
+        <a class="btn btn-primary mx-2" asp-controller="Arquivo" asp-action="Arquivo"><i class="bi bi-camera-fill mx-2"></i><i class="bi bi-file-earmark-pdf-fill mx-2"></i>Inserir</a>
+    </div>
+
+
+</div>
+
